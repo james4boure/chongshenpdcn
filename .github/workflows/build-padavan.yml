@@ -42,6 +42,15 @@ jobs:
           sh dl_toolchain.sh
           mkdir -p /opt/images/
 
+      - name: Verify and Extract Toolchain
+        run: |
+          cd /opt/rt-n56u/toolchain-mipsel
+          if ! tar -tzf toolchain-mipsel.tar.gz > /dev/null; then
+            echo "File is not in gzip format. Re-downloading..."
+            sh dl_toolchain.sh
+          fi
+          tar -xzf toolchain-mipsel.tar.gz
+
       - name: Build Firmware
         env:
           TNAME: 360P2
